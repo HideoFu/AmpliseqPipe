@@ -9,8 +9,8 @@ while [ "$1" != "" ]
 do
 	export EXP1=$1
 
-       	sh `dirname $0`/f-galore-paired.sh    # trim reads
-       	sh `dirname $0`/hisat2-paired.sh    # map reads to the Genome
+       	sh ./f-galore-paired.sh    # trim reads
+       	sh ./hisat2-paired.sh    # map reads to the Genome
 
     shift
 done

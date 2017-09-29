@@ -18,8 +18,8 @@ sed -e 's/_1.fastq//' samples.txt > samples2.txt
 rm samples.txt
 
 # SAM ファイルへの変換
-sh ./code/fastqToSam.sh `cat samples2.txt`
+sh `dirname $0`/fastqToSam.sh `cat samples2.txt`
 rm samples2.txt
 
 # sam ファイルからリード数への変換、および統合
-sh ./code/bindData.sh
+sh `dirname $0`/bindData.sh

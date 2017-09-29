@@ -15,5 +15,11 @@ rm filenames.txt
 touch samples.txt
 ls *_1.fastq >> samples.txt
 sed -e 's/_1.fastq//' samples.txt > samples2.txt
+rm samples.txt
 
-sh ./Code/fastqToSam.sh `cat samples2.txt`
+# SAM ファイルへの変換
+sh ./code/fastqToSam.sh `cat samples2.txt`
+rm samples2.txt
+
+# sam ファイルからリード数への変換、および統合
+sh ./code/bindData.sh
