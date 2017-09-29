@@ -7,6 +7,6 @@ ls *.sam >> samfiles
 
 # call Lcount.R and bind read-count
 
-Rscript --vanilla --slave bindData.R
+Rscript --vanilla --slave `dirname $0`/bindData.R
 
 rm samfiles

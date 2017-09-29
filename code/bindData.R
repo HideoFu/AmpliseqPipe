@@ -1,13 +1,17 @@
+wd <- commandArgs(trailingOnly=TRUE)[1]
 filenames <- read.delim("samfiles", header=F, stringsAsFactors=F)
 
-source("./code/Lcount.R")
+source(paste(wd, "Lcount.R", sep="/")
 library(dplyr)
 library(foreach)
 library(doParallel)
 
 # read reference file
+pwd <- getwd()
+setwd(wd)
+setwd("..")
 loc <- read.delim("./lib/L1000locGRCh37.txt")
-
+etwd(pwd)
 
 cl <- makeCluster(detectCores())
 registerDoParallel(cl)
