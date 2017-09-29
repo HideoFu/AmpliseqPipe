@@ -2,15 +2,11 @@ filenames <- read.delim("samfiles", header=F, stringsAsFactors=F)
 
 source("./code/Lcount.R")
 library(dplyr)
-library(foreach)
-library(doParallel)
+library(pforeach)
 
 # read reference file
 loc <- read.delim("./lib/L1000locGRCh37.txt")
 
-
-cl <- makeCluster(detectCores())
-registerDoParallel(cl)
 
 for ( i in 1:dim(filenames)[1]){
 	# count reads for each gene in loc file
@@ -21,9 +17,6 @@ for ( i in 1:dim(filenames)[1]){
     combined_read <- full_join(combined_read, read_count, by="id")
   }
 }
-
-stopCluster(cl)
-
 
 colnames(combined_read) <- c("id", filenames[,1])
 combined_read[is.na(combined_read)] <- 0

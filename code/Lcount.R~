@@ -3,17 +3,12 @@
 
 Lcount <- function(sam,loc){
 
-	# read 2 columns (Chromosome, and start position) from sam file.
     data <- read.delim(sam,header=F,skip=27,colClasses=c(rep("NULL",2),"character","integer",rep("NULL",18)))
     colnames(data) <- c("Chr","start")
 
-    
-    id_list <- foreach(i = 1:nrow(loc)) %dopar% row.names(data[data$Chr==loc[i,"Chr"] & data$start>=loc[i,"start"] & data$start<=loc[i,"end"],])
-
-    for ( i in 1:nrow(loc)){
-	    data[id_list[[i]], "id"] <- loc[i, "id"]
-    }
-
+    pforeach(i in 1:nrow(loc))({
+       data[data$Chr==loc[i,"Chr"] & data$start>=loc[i,"start"] & data$start<=loc[i,"end"],"id"] <- loc[i,"id"]
+    })
 
     data <- data[!is.na(data$id),]
     counttable <- table(data$id)
