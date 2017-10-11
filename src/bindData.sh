@@ -19,5 +19,5 @@ ls *.txt > txtfiles
 
 Rscript --vanilla --slave `dirname $0`/bindData.R
 
-rm *S[0-9]?.txt
+rm *S[0-9]+\.txt
 rm txtfiles
