@@ -13,4 +13,4 @@ for (i in 1:dim(filenames)[1]){
 colnames(combined_read) <- c("id", filenames[,1])
 combined_read[is.na(combined_read)] <- 0
 
-write.table(combined_read, "combined_read.txt", sep="\t")
+write.table(combined_read, "combined_read.txt", sep="\t", row.names=F)
