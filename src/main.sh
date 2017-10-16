@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exec > logfile 2>&1
+
 # ファイル名の整形と gz の解凍
 rename 's/_001//' *.gz
 rename 's/L001_R//' *.gz
