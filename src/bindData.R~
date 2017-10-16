@@ -1,35 +1,16 @@
-wd <- commandArgs(trailingOnly=TRUE)[1]
-filenames <- read.delim("samfiles", header=F, stringsAsFactors=F)
+filenames <- read.delim("txtfiles", header=F, stringsAsFactors=F)
 
-source(paste(wd, "Lcount.R", sep="/")
-library(dplyr)
-library(foreach)
-library(doParallel)
-
-# read reference file
-pwd <- getwd()
-setwd(wd)
-setwd("..")
-loc <- read.delim("./lib/L1000locGRCh37.txt")
-etwd(pwd)
-
-cl <- makeCluster(detectCores())
-registerDoParallel(cl)
-
-for ( i in 1:dim(filenames)[1]){
-	# count reads for each gene in loc file
-  read_count <- Lcount(sam=filenames[i,1], loc=loc)
-  if (i ==1 ){
-    combined_read <- read_count
-  } else {
-    combined_read <- full_join(combined_read, read_count, by="id")
-  }
+for (i in 1:dim(filenames)[1]){
+	if (i == 1){
+		combined_read <- read.table(filenames[i,1], header=T)
+	} else {
+		read_count <- read.table(filenames[i,1], header=T)
+		combined_read <- cbind(combined_read, read_count$count)
+	}
 }
-
-stopCluster(cl)
 
 
 colnames(combined_read) <- c("id", filenames[,1])
 combined_read[is.na(combined_read)] <- 0
 
-write.table(combined_read, "combined_read.txt", sep="\t")
+write.table(combined_read, "combined_read.txt", sep="\t", row.names=F)
