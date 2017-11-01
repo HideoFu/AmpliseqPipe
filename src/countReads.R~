@@ -10,7 +10,7 @@ library(doParallel)
 pwd <- getwd()
 setwd(wd)
 setwd("..")
-loc <- read.delim("./lib/L1000locGRCh38.txt")
+loc <- read.delim("./lib/L1000locGRCh37.txt")
 setwd(pwd)
 
 cl <- makeCluster(detectCores())

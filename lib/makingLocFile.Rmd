@@ -1,0 +1,35 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(org.Hs.eg.db)
+
+L1000 <- read.delim("v:/public/L1000landmark.txt", stringsAsFactors=F)
+
+
+id_symbol <- toTable(org.Hs.egSYMBOL)
+m <- match(L1000$ENTREZ_GENE_ID, id_symbol$gene_id)
+loc <- data.frame(symbol=id_symbol[m,"symbol"])
+
+id_chr <- toTable(org.Hs.egCHR)
+m <- match(L1000$ENTREZ_GENE_ID, id_chr$gene_id)
+loc$Chr <- id_chr[m, "chromosome"]
+
+id_str <- toTable(org.Hs.egCHRLOC)
+m <- match(L1000$ENTREZ_GENE_ID, id_str$gene_id)
+loc$start <- abs(id_str[m, "start_location"])
+
+id_end <- toTable(org.Hs.egCHRLOCEND)
+m <- match(L1000$ENTREZ_GENE_ID, id_end$gene_id)
+loc$end <- abs(id_end[m, "end_location"])
+
+loc$id <- L1000$ENTREZ_GENE_ID
+
+
+loc <- loc[order(loc$start),]
+loc <- loc[order(loc$Chr),]
+
+write.table(loc, "L1000locGRCh38.txt", sep="\t")
+```
