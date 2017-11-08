@@ -4,7 +4,7 @@
 Lcount <- function(sam,loc){
 
 	# read 2 columns (Chromosome, and start position) from sam file.
-    data <- read.delim(sam,header=F,skip=27,colClasses=c(rep("NULL",2),"character","integer",rep("NULL",18)))
+    data <- read.delim(sam,header=F,skip=196, colClasses=c(rep("NULL",2),"character","integer",rep("NULL",18)))
     colnames(data) <- c("Chr","start")
 
     
