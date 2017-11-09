@@ -25,3 +25,6 @@ rm samples2.txt
 
 # sam ファイルからリード数への変換、および統合
 sh `dirname $0`/bindData.sh
+
+# 外挿
+Rscript --vanilla --slave `dirname $0`/extraporlation.R
