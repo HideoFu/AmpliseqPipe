@@ -7,23 +7,10 @@ Lcount <- function(sam,loc){
     data <- read.delim(sam,header=F,skip=196, colClasses=c(rep("NULL",2),"character","integer",rep("NULL",18)))
     colnames(data) <- c("Chr","start")
 
+    result <- data.frame(id=loc$id)
     
-    id_list <- foreach(i = 1:nrow(loc)) %dopar% row.names(data[data$Chr==loc[i,"Chr"] & data$start>=loc[i,"start"] & data$start<=loc[i,"end"],])
-
-    for ( i in 1:nrow(loc)){
-	    data[id_list[[i]], "id"] <- loc[i, "id"]
-    }
-
-
-    data <- data[!is.na(data$id),]
-    counttable <- table(data$id)
-
-    result <- as.data.frame(names(counttable))
-    count <- as.vector(counttable)
-
-    result$count <- count
-    colnames(result) <- c("id","count")
+    result$count <- foreach(i = 1:nrow(loc), .combine = c) %dopar% length(row.names(data[data$Chr==loc[i,"Chr"] & data$start>=loc[i,"start"] &
+                                                                        data$start<=loc[i,"end"],]))
 
     return(result)
-
 }
