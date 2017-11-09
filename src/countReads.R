@@ -13,14 +13,18 @@ setwd("..")
 loc <- read.delim("./lib/L1000locGRCh38.txt")
 setwd(pwd)
 
+
 cl <- makeCluster(detectCores())
 registerDoParallel(cl)
 
-for ( i in 1:dim(filenames)[1]){
-	# count reads for each gene in loc file
-  read_count <- Lcount(sam=filenames[i,1], loc=loc)
-  write.table(read_count, file = paste(strsplit(filenames[i,1], "\\.")[[1]][1],
-				       "txt", sep="."), row.names=F)
-}
+combined_read <- foreach(i=1:dim(filenames)[1], .combine = cbind, .packages = c("foreach", "doParallel")) %dopar%
+  Lcount(sam=filenames[i,1], loc=loc)
 
-stopCluster(cl)
+stopCluster(cl)    # in ad hoc test, DO NOT forget
+
+
+combined_read <- as.data.frame(combined_read)
+combined_read <- cbind(loc$id, combined_read)
+colnames(combined_read) <- c("id", filenames[,1])
+
+write.table(combined_read, "combined_read.txt", sep="\t", row.names=F)
