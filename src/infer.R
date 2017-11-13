@@ -75,4 +75,4 @@ data <- cbind(id=l1000_id, data)
 
 combined_data <- rbind(data, exp_tbl_nodup)
 
-fwrite(combined_data, "extraporlated_data.csv")
+fwrite(combined_data, "inferred_read.csv")
