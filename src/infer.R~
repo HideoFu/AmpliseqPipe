@@ -45,7 +45,7 @@ exp_tbl <- foreach(i=1:ncol(data), .combine=cbind, .packages="data.table") %dopa
 stopCluster(cl)
 
 exp_tbl <- cbind(conv_dt$gene_id, exp_tbl)
-colnames(exp_tbl) <- c("id", colnames(data))
+colnames(exp_tbl) <- c("id", samples)
 fwrite(exp_tbl, "exp_tbl.csv")
 
 # Check duplication
