@@ -27,4 +27,4 @@ rm samples2.txt
 sh `dirname $0`/bindData.sh
 
 # 外挿
-Rscript --vanilla --slave `dirname $0`/extraporlation.R
+Rscript --vanilla --slave `dirname $0`/infer.R
